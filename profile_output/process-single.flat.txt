@@ -1,0 +1,17 @@
+Thread ID: 7487460
+Total: 19.798980
+Sort by: self_time
+
+ %self     total     self     wait    child    calls   name
+ 31.48     16.03     6.23     0.00     9.80  1900857   Object#asd 
+ 22.76      4.51     4.51     0.00     0.00  1900857   Float#to_s 
+ 17.75      8.02     3.51     0.00     4.51  1900859   Object#omg 
+  9.98     19.80     1.98     0.00    17.82        2   Object#target_code 
+  9.05      1.79     1.79     0.00     0.00  1900857   Float#< 
+  8.98      1.78     1.78     0.00     0.00  1900855   Float#to_f 
+  0.00     19.80     0.00     0.00    19.80        1   Object#test 
+  0.00      0.00     0.00     0.00     0.00        2   Fixnum#to_s 
+  0.00      0.00     0.00     0.00     0.00        2   Symbol#to_proc 
+  0.00      0.00     0.00     0.00     0.00        2   Fixnum#to_f 
+
+* in front of method name means it is recursively called

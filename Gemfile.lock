@@ -1,0 +1,15 @@
+GIT
+  remote: git://github.com/rdp/ruby-prof.git
+  revision: f30efda79fcf4138bf6d8423eaa6236d585564ac
+  specs:
+    ruby-prof (0.11.0.rc3)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ruby-prof!

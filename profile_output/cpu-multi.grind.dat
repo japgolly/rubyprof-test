@@ -1,0 +1,94 @@
+events: process_time
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Array#each
+0 -60700935225
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Symbol#to_proc
+0 9
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Float#to_f
+0 1832631
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Float#to_s
+0 4540185
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Float#<
+0 1936366
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Fixnum#to_f
+0 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Fixnum#to_s
+0 7
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+fn=Object#omg
+15 4903046
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Fixnum#to_s
+calls=2 15
+15 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#to_s
+calls=1900855 15
+15 4540177
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#to_s
+calls=2 15
+15 8
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+fn=Object#asd
+14 9199605
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+cfn=Object#omg
+calls=1900857 14
+14 9443220
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Fixnum#to_f
+calls=2 14
+14 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#to_f
+calls=1900855 14
+14 1832631
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+fn=Object#target_code
+13 4141835
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+cfn=Object#asd
+calls=1900857 13
+13 20475461
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#<
+calls=1900857 13
+13 1936366
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+cfn=Object#omg
+calls=2 13
+13 18
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+fn=Object#test
+30 24
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/multi_profile.rb
+cfn=Object#target_code
+calls=2 35
+35 26553680
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Symbol#to_proc
+calls=2 36
+36 9
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 36
+36 15702
+
