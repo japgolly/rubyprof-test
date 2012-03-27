@@ -6,7 +6,7 @@ Bundler.require :default
 
 # Create output directory
 require 'fileutils'
-OUTPUT_DIR= "profile_output"
+OUTPUT_DIR= "output-ruby"
 FileUtils.mkdir_p OUTPUT_DIR
 
 # Create some dummy code to profile
