@@ -67,3 +67,4 @@ test RubyProf::WALL_TIME => 'wall-multi',
 
 # Manually compare the results
 puts "Done."
+exit 0
