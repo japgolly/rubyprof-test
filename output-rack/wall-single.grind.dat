@@ -1,0 +1,1718 @@
+events: process_time
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/frame_options.rb
+fn=Rack::Protection::FrameOptions#header
+21 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Symbol#to_s
+calls=2 22
+22 1
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb
+fn=Rack::Protection::XSSHeader#header
+17 9
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Symbol#to_s
+calls=2 18
+18 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+fn=Rack::Response#finish
+71 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Integer#to_i
+calls=4 79
+79 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#include?
+calls=2 74
+74 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#bytesize
+0 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils#bytesize
+280 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#bytesize
+calls=2 281
+281 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Enumerable#inject
+0 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 80
+80 12
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Fixnum#==
+0 6
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Response#finish
+75 17
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Integer#to_i
+calls=4 76
+76 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Module#===
+calls=2 76
+76 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#include?
+calls=2 76
+76 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Enumerable#inject
+calls=2 80
+80 15
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Fixnum#to_s
+calls=2 80
+80 4
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#[]=
+calls=2 80
+80 11
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+cfn=Rack::Response#finish
+calls=2 84
+84 12
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Enumerable#map
+0 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#each
+calls=2 197
+197 34
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#empty?
+0 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Regexp#===
+0 16
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#===
+0 4
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Enumerable#all?
+0 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 191
+191 32
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#initialize_copy
+0 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=<Class::String>#allocate
+0 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#fetch
+0 5
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/mime.rb
+fn=Rack::Mime#mime_type
+16 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#to_s
+calls=2 17
+17 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#downcase
+calls=2 17
+17 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#fetch
+calls=2 17
+17 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=BasicObject#singleton_method_added
+0 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Module#module_function
+0 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=BasicObject#singleton_method_added
+calls=1 19
+19 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Module#method_added
+0 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=IO#set_encoding
+0 8
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#[]
+0 4
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#include?
+0 8
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Symbol#to_s
+0 9
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=<Class::Sinatra::Base>#mime_type
+1083 1652
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#nil?
+calls=2 1084
+1084 9
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Symbol#to_s
+calls=6 1085
+1085 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#include?
+calls=2 1084
+1084 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#[]
+calls=2 1085
+1085 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=IO#set_encoding
+calls=2 1086
+1086 8
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Module#method_added
+calls=1 16
+16 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Module#module_function
+calls=1 19
+19 7
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/mime.rb
+cfn=Rack::Mime#mime_type
+calls=2 1086
+1086 13
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Helpers#mime_type
+179 5
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#mime_type
+calls=2 180
+180 1704
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#delete
+0 9
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Helpers#content_type
+185 36
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#delete
+calls=4 192
+192 9
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Helpers#mime_type
+calls=2 188
+188 1709
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#nil?
+calls=2 189
+189 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#dup
+calls=2 190
+190 18
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#include?
+calls=2 191
+191 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#settings
+calls=4 192
+192 9
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Helpers#content_type
+calls=4 192
+192 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Enumerable#all?
+calls=2 191
+191 37
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=2 192
+192 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#include?
+calls=4 196
+196 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#empty?
+calls=2 195
+195 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Enumerable#map
+calls=2 197
+197 37
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#join
+calls=2 197
+197 3
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+cfn=Rack::Response#[]=
+calls=2 199
+199 17
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+fn=Rack::Response#[]
+50 62
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#[]
+calls=2 51
+51 16
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#error_block!
+915 10
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#settings
+calls=2 916
+916 8
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to?
+calls=8 922
+922 17
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Class#superclass
+calls=4 918
+918 8
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Response#body=
+66 11
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Module#===
+calls=4 68
+68 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Helpers#body
+104 14
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#block_given?
+calls=2 105
+105 3
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Response#body=
+calls=2 109
+109 13
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#block_given?
+calls=4 105
+105 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Array#first
+0 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#throw
+0 15
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Float#to_f
+0 558676
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Float#to_s
+0 3451090
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Float#<
+0 602238
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Fixnum#to_f
+0 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Fixnum#to_s
+0 6
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru
+fn=MyApp#omg
+16 1039361
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Fixnum#to_s
+calls=2 16
+16 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#to_s
+calls=2061800 16
+16 3451085
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#to_s
+calls=2 16
+16 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru
+fn=MyApp#asd
+15 2071755
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru
+cfn=MyApp#omg
+calls=2061802 15
+15 4490445
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Fixnum#to_f
+calls=2 15
+15 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#to_f
+calls=2061800 15
+15 558676
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru
+fn=MyApp#target_code
+14 569627
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru
+cfn=MyApp#asd
+calls=2061802 14
+14 7120878
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Float#<
+calls=2061802 14
+14 602238
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru
+cfn=MyApp#omg
+calls=2 14
+14 9
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Method#call
+0 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Method#call
+calls=2 1212
+1212 8292764
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru
+cfn=MyApp#target_code
+calls=2 20
+20 8292752
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#to_s
+calls=2 20
+20 4
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=UnboundMethod#bind
+0 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Proc#[]
+0 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=UnboundMethod#bind
+calls=2 1212
+1212 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Method#call
+calls=2 1212
+1212 8292766
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#route_eval
+800 11
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Proc#[]
+calls=2 785
+785 8292776
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#throw
+calls=2 785
+785 15
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Array#map
+0 1
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Array#to_a
+0 1
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=MatchData#captures
+0 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Regexp#match
+0 6
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#path_info
+26 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#to_s
+calls=2 26
+26 1
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#process_route
+809 18
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#path_info
+calls=2 810
+810 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#empty?
+calls=2 811
+811 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Regexp#match
+calls=2 812
+812 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=MatchData#captures
+calls=2 813
+813 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#to_a
+calls=2 813
+813 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#map
+calls=2 813
+813 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Enumerable#any?
+calls=2 815
+815 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#catch
+calls=2 820
+820 8292810
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#request_method
+27 3
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#route!
+781 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#request_method
+calls=2 782
+782 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 783
+783 8292855
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Class#superclass
+0 16
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#filter!
+775 14
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Class#superclass
+calls=8 776
+776 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to?
+calls=4 776
+776 5
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#filter!
+calls=4 776
+776 24
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=4 777
+777 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Class#superclass
+calls=4 776
+776 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to?
+calls=4 776
+776 10
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=4 777
+777 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=<Class::File>#exist?
+0 15
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=<Class::File>#join
+0 8
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=<Class::File>#expand_path
+0 18
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=<Class::File>#dirname
+0 24
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=<Class::Sinatra::Base>#root
+1523 10
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=<Class::Sinatra::Base>#public_folder
+1529 17
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#root
+calls=16 1523
+1523 10
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::File>#dirname
+calls=8 1523
+1523 24
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::File>#expand_path
+calls=8 1523
+1523 18
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=<Class::Sinatra::Base>#static
+1530 8
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#public_folder
+calls=8 1529
+1529 69
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::File>#join
+calls=4 1529
+1529 8
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)
+fn=<Class::Sinatra::Base>#static?
+1 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)
+cfn=<Class::Sinatra::Base>#static?
+calls=2 1
+1 106
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#static
+calls=4 1530
+1530 85
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::File>#exist?
+calls=2 1530
+1530 15
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#dispatch!
+883 26
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#settings
+calls=8 890
+890 18
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)
+cfn=<Class::Sinatra::Base>#static?
+calls=2 884
+884 109
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#filter!
+calls=4 890
+890 50
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#route!
+calls=2 886
+886 8292864
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#catch
+0 14
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#dispatch!
+calls=2 719
+719 8293067
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#error_block!
+calls=2 720
+720 43
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 821
+821 1
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#route_eval
+calls=2 785
+785 8292802
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#invoke
+870 32
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#catch
+calls=4 871
+871 8293124
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Module#===
+calls=14 873
+873 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#first
+calls=2 873
+873 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to?
+calls=4 877
+877 10
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Helpers#body
+calls=2 878
+878 25
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+fn=Rack::Response#[]=
+54 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#[]=
+calls=2 55
+55 10
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#[]=
+calls=2 55
+55 14
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#each_value
+0 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#is_a?
+0 7
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#==
+0 9
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=2 1470
+1470 0
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=<Class::Sinatra::Base>#force_encoding
+1469 11
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#settings
+calls=2 1470
+1470 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#==
+calls=2 1470
+1470 9
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#is_a?
+calls=2 1470
+1470 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to?
+calls=4 1471
+1471 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#each_value
+calls=2 1474
+1474 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#force_encoding
+1467 5
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#settings
+calls=2 1467
+1467 5
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#force_encoding
+calls=4 1467
+1467 34
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/tilt-1.3.3/lib/tilt.rb
+fn=Tilt::Cache#clear
+130 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Symbol#==
+0 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)
+fn=<Class::Sinatra::Base>#environment
+1 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=<Class::Sinatra::Base>#development?
+1266 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)
+cfn=<Class::Sinatra::Base>#environment
+calls=2 1266
+1266 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Symbol#==
+calls=2 1266
+1266 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=<Class::Sinatra::Base>#settings
+734 10
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#class
+0 11
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#settings
+739 28
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#class
+calls=2 740
+740 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#settings
+calls=2 740
+740 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#class
+calls=2 740
+740 0
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#settings
+calls=2 740
+740 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#class
+calls=8 740
+740 4
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#settings
+calls=8 740
+740 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#class
+calls=2 740
+740 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#settings
+calls=2 740
+740 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#class
+calls=4 740
+740 3
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#settings
+calls=4 740
+740 1
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#indifferent_hash
+865 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Class#new
+calls=2 866
+866 7
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#indifferent_params
+856 4
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#indifferent_hash
+calls=2 857
+857 10
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#merge
+calls=2 857
+857 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#each
+calls=2 858
+858 1
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#merge
+0 17
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::Hash>#allocate
+calls=2 221
+221 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_dup
+calls=2 221
+221 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::Hash>#allocate
+calls=2 857
+857 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_dup
+calls=2 857
+857 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::Hash>#allocate
+calls=2 23
+23 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_dup
+calls=2 23
+23 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::Hash>#allocate
+calls=2 23
+23 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_dup
+calls=2 23
+23 5
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#parseable_data?
+176 4
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#media_type
+calls=2 177
+177 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#include?
+calls=2 177
+177 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Array#include?
+0 12
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#==
+calls=4 171
+171 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#==
+calls=4 177
+177 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Fixnum#==
+calls=4 79
+79 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Fixnum#==
+calls=6 74
+74 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=NilClass#nil?
+0 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#content_type
+31 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=NilClass#nil?
+calls=2 33
+33 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=NilClass#nil?
+calls=2 33
+33 1
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#media_type
+46 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#content_type
+calls=2 47
+47 5
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#content_type
+calls=2 47
+47 3
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#form_data?
+168 9
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#media_type
+calls=2 169
+169 10
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#include?
+calls=2 171
+171 9
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#eql?
+0 1
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#nil?
+0 12
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#POST
+194 16
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#nil?
+calls=2 195
+195 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#eql?
+calls=2 197
+197 1
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#form_data?
+calls=2 199
+199 28
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#parseable_data?
+calls=2 199
+199 13
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#keys
+0 3
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils::KeySpaceConstrainedParams#to_params_hash
+454 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#keys
+calls=2 456
+456 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 456
+456 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils::KeySpaceConstrainedParams#initialize
+434 4
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils#parse_nested_query
+84 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Class#new
+calls=2 85
+85 12
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#split
+calls=2 87
+87 10
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 87
+87 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::KeySpaceConstrainedParams#to_params_hash
+calls=2 93
+93 8
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#parse_query
+333 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils#parse_nested_query
+calls=2 334
+334 39
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#to_s
+0 11
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#query_string
+28 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#to_s
+calls=6 28
+28 4
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#GET
+181 13
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#query_string
+calls=6 186
+186 10
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=4 186
+186 3
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#parse_query
+calls=2 186
+186 45
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#params
+220 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#GET
+calls=2 221
+221 71
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#POST
+calls=2 221
+221 60
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#merge
+calls=2 221
+221 8
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#block_given?
+0 8
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#respond_to?
+0 41
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=2 34
+34 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=2 1471
+1471 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=4 776
+776 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=2 877
+877 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=4 922
+922 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=2 723
+723 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#lambda
+0 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#respond_to_missing?
+0 25
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#==
+0 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=2 27
+27 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=4 171
+171 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=4 177
+177 4
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#[]
+0 8
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils::HeaderHash#[]
+390 12
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]
+calls=4 391
+391 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#downcase
+calls=2 391
+391 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]
+calls=4 391
+391 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#downcase
+calls=2 391
+391 3
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils::HeaderHash#merge!
+416 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#each
+calls=2 417
+417 0
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#initialize_copy
+0 13
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils::HeaderHash#merge
+421 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#dup
+calls=2 422
+422 9
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#merge!
+calls=2 423
+423 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#downcase
+0 16
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils::HeaderHash#[]=
+394 27
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#downcase
+calls=2 395
+395 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=6 398
+398 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#downcase
+calls=2 395
+395 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=6 398
+398 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#downcase
+calls=2 395
+395 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=6 398
+398 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#downcase
+calls=2 395
+395 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=6 398
+398 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#each
+0 13
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#[]=
+calls=2 375
+375 13
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#join
+calls=2 197
+197 27
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#initialize
+0 8
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=Rack::Utils::HeaderHash#initialize
+372 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#initialize
+calls=2 373
+373 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#each
+calls=2 375
+375 18
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=<Class::Hash>#allocate
+0 10
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Module#===
+0 12
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+fn=<Class::Rack::Utils::HeaderHash>#new
+368 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Module#===
+calls=2 369
+369 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Class#new
+calls=2 369
+369 32
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Integer#to_i
+0 4
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+fn=Rack::Response#initialize
+22 28
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Integer#to_i
+calls=2 23
+23 1
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=<Class::Rack::Utils::HeaderHash>#new
+calls=2 24
+24 39
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#merge
+calls=2 24
+24 20
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#[]
+calls=2 27
+27 8
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#==
+calls=2 27
+27 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#lambda
+calls=2 28
+28 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to?
+calls=4 34
+34 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 37
+37 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#block_given?
+calls=2 44
+44 2
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+fn=Rack::Request#initialize
+20 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Class#new
+0 16
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::BasicObject>#allocate
+calls=4 713
+713 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#initialize
+calls=2 712
+712 3
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+cfn=Rack::Response#initialize
+calls=2 713
+713 113
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::Hash>#allocate
+calls=2 369
+369 1
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::HeaderHash#initialize
+calls=2 369
+369 26
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::BasicObject>#allocate
+calls=2 85
+85 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils::KeySpaceConstrainedParams#initialize
+calls=2 85
+85 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::Hash>#allocate
+calls=2 866
+866 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#initialize
+calls=2 866
+866 4
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#call!
+710 45
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Class#new
+calls=4 713
+713 126
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb
+cfn=Rack::Request#params
+calls=2 714
+714 145
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#indifferent_params
+calls=2 714
+714 22
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#settings
+calls=2 715
+715 8
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#call!
+calls=2 715
+715 15
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/tilt-1.3.3/lib/tilt.rb
+cfn=Tilt::Cache#clear
+calls=2 715
+715 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#force_encoding
+calls=2 716
+716 44
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+cfn=Rack::Response#[]=
+calls=2 718
+718 13
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#invoke
+calls=4 720
+720 8293199
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb
+cfn=Rack::Response#[]
+calls=2 722
+722 78
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Helpers#body
+calls=4 723
+723 8
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Module#===
+calls=2 723
+723 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#respond_to?
+calls=2 723
+723 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Helpers#content_type
+calls=2 726
+726 1891
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Response#finish
+calls=2 730
+730 69
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=<Class::Sinatra::Base>#development?
+calls=2 1525
+1525 9
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#initialize_copy
+0 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#initialize_dup
+0 14
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_copy
+calls=2 705
+705 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#initialize_copy
+calls=2 422
+422 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#initialize_copy
+calls=2 221
+221 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#initialize_copy
+calls=2 857
+857 2
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#initialize_copy
+calls=2 190
+190 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#initialize_copy
+calls=2 23
+23 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#initialize_copy
+calls=2 23
+23 3
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=<Class::BasicObject>#allocate
+0 5
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Kernel#dup
+0 20
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::BasicObject>#allocate
+calls=2 705
+705 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_dup
+calls=2 705
+705 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::Hash>#allocate
+calls=2 422
+422 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_dup
+calls=2 422
+422 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=<Class::String>#allocate
+calls=2 190
+190 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#initialize_dup
+calls=2 190
+190 6
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+fn=Sinatra::Base#call
+704 7
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Kernel#dup
+calls=2 705
+705 14
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#call!
+calls=2 705
+705 8295673
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Enumerable#any?
+0 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 31
+31 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 815
+815 1
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Array#join
+0 31
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Symbol#to_s
+calls=2 197
+197 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#empty?
+0 4
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Array#each
+0 44
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#empty?
+calls=4 26
+26 3
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#process_route
+calls=2 784
+784 8292849
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#===
+calls=8 191
+191 4
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Regexp#===
+calls=2 191
+191 16
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb
+cfn=Rack::Utils#bytesize
+calls=2 80
+80 6
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#split
+0 19
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=String#gsub
+0 30
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/path_traversal.rb
+fn=Rack::Protection::PathTraversal#cleanup
+21 23
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#gsub
+calls=4 23
+23 30
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#split
+calls=2 25
+25 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#each
+calls=2 25
+25 9
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#join
+calls=2 30
+30 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Enumerable#any?
+calls=2 31
+31 5
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/path_traversal.rb
+fn=Rack::Protection::PathTraversal#call
+13 9
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/path_traversal.rb
+cfn=Rack::Protection::PathTraversal#cleanup
+calls=2 15
+15 75
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=4 18
+18 5
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb
+cfn=Rack::Protection::XSSHeader#call
+calls=2 16
+16 8295726
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/json_csrf.rb
+fn=Rack::Protection::JsonCsrf#call
+16 12
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/path_traversal.rb
+cfn=Rack::Protection::PathTraversal#call
+calls=2 17
+17 8295815
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#to_s
+calls=2 18
+18 1
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=String#split
+calls=2 18
+18 5
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Array#first
+calls=2 18
+18 2
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#include?
+0 3
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/ip_spoofing.rb
+fn=Rack::Protection::IPSpoofing#accepts?
+14 3
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#include?
+calls=2 15
+15 1
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/base.rb
+fn=Rack::Protection::Base#call
+42 10
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/ip_spoofing.rb
+cfn=Rack::Protection::IPSpoofing#accepts?
+calls=2 43
+43 4
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/json_csrf.rb
+cfn=Rack::Protection::JsonCsrf#call
+calls=2 47
+47 8295835
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb
+fn=Rack::Protection::XSSHeader#call
+21 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/base.rb
+cfn=Rack::Protection::Base#call
+calls=2 22
+22 8295849
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/frame_options.rb
+cfn=Rack::Protection::FrameOptions#header
+calls=2 23
+23 8
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#merge
+calls=2 23
+23 11
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb
+cfn=Sinatra::Base#call
+calls=2 22
+22 8295694
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb
+cfn=Rack::Protection::XSSHeader#header
+calls=2 23
+23 11
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#merge
+calls=2 23
+23 13
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+fn=Hash#[]=
+0 26
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/nulllogger.rb
+fn=Rack::NullLogger#call
+7 6
+cfl=/mnt/ubuntu/home/golly/projects/rubyprof-test/ruby_runtime
+cfn=Hash#[]=
+calls=2 8
+8 2
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb
+cfn=Rack::Protection::XSSHeader#call
+calls=2 9
+9 8295874
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/head.rb
+fn=Rack::Head#call
+8 9
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/nulllogger.rb
+cfn=Rack::NullLogger#call
+calls=2 9
+9 8295882
+
+fl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/showexceptions.rb
+fn=Sinatra::ShowExceptions#call
+20 6
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/head.rb
+cfn=Rack::Head#call
+calls=2 21
+21 8295891
+
+fl=/mnt/ubuntu/home/golly/projects/rubyprof-test/profile.rb
+fn=SingleProfiler#call
+28 -1332831889828881
+cfl=/home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/showexceptions.rb
+cfn=Sinatra::ShowExceptions#call
+calls=2 29
+29 8295897
+

@@ -1,0 +1,826 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>ruby-prof call tree</title>
+<style type="text/css">
+<!--
+body {
+    font-size:70%;
+    padding:0px;
+    margin:5px;
+    margin-right:0px;
+    margin-left:0px;
+    background: #ffffff;
+}
+ul {
+    margin-left:0px;
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-left:0px;
+    list-style-type:none;
+}
+li {
+    margin-left:11px;
+    padding:0px;
+    white-space:nowrap;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+}
+.thread {
+    margin-left:11px;
+    background:#708090;
+    padding-top:3px;
+    padding-left:12px;
+    padding-bottom:2px;
+    border-left:1px solid #CCCCCC;
+    border-top:1px solid #CCCCCC;
+    font-weight:bold;
+}
+.hidden {
+    display:none;
+    width:0px;
+    height:0px;
+    margin:0px;
+    padding:0px;
+    border-style:none;
+}
+.color01 { background:#adbdeb }
+.color05 { background:#9daddb }
+.color0 { background:#8d9dcb }
+.color1 { background:#89bccb }
+.color2 { background:#56e3e7 }
+.color3 { background:#32cd70 }
+.color4 { background:#a3d53c }
+.color5 { background:#c4cb34 }
+.color6 { background:#dcb66d }
+.color7 { background:#cda59e }
+.color8 { background:#be9d9c }
+.color9 { background:#cf947a }
+#commands {
+    font-size:10pt;
+    padding:10px;
+    margin-left:11px;
+    margin-bottom:0px;
+    margin-top:0px;
+    background:#708090;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+}
+#titlebar {
+    font-size:10pt;
+    padding:10px;
+    margin-left:11px;
+    margin-bottom:0px;
+    margin-top:10px;
+    background:#8090a0;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+}
+#help {
+    font-size:10pt;
+    padding:10px;
+    margin-left:11px;
+    margin-bottom:0px;
+    margin-top:0px;
+    background:#8090a0;
+    display:none;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+}
+#sentinel {
+    height: 400px;
+    margin-left:11px;
+    background:#8090a0;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+ }
+input { margin-left:10px; }
+-->
+</style>
+<script type="text/javascript">
+/*
+   Copyright (C) 2005,2009  Stefan Kaes
+   skaes@railsexpress.de
+*/
+
+function rootNode() {
+  return currentThread;
+}
+
+function hideUL(node) {
+  var lis = node.childNodes
+  var l = lis.length;
+  for (var i=0; i < l ; i++ ) {
+    hideLI(lis[i]);
+  }
+}
+
+function showUL(node) {
+  var lis = node.childNodes;
+  var l = lis.length;
+  for (var i=0; i < l ; i++ ) {
+    showLI(lis[i]);
+  }
+}
+
+function findUlChild(li){
+  var ul = li.childNodes[2];
+  while (ul && ul.nodeName != "UL") {
+    ul = ul.nextSibling;
+  }
+  return ul;
+}
+
+function isLeafNode(li) {
+  var img = li.firstChild;
+  return (img.src.indexOf('empty.png') > -1);
+}
+
+function hideLI(li) {
+  if (isLeafNode(li))
+    return;
+
+  var img = li.firstChild;
+  img.src = 'plus.png';
+
+  var ul = findUlChild(li);
+  if (ul) {
+    ul.style.display = 'none';
+    hideUL(ul);
+  }
+}
+
+function showLI(li) {
+  if (isLeafNode(li))
+    return;
+
+  var img = li.firstChild;
+  img.src = 'minus.png';
+
+  var ul = findUlChild(li);
+  if (ul) {
+    ul.style.display = 'block';
+    showUL(ul);
+  }
+}
+
+function toggleLI(li) {
+  var img = li.firstChild;
+  if (img.src.indexOf("minus.png")>-1)
+    hideLI(li);
+  else {
+    if (img.src.indexOf("plus.png")>-1)
+      showLI(li);
+  }
+}
+
+function aboveThreshold(text, threshold) {
+  var match = text.match(/\d+[.,]\d+/);
+  return (match && parseFloat(match[0].replace(/,/, '.'))>=threshold);
+}
+
+function setThresholdLI(li, threshold) {
+  var img = li.firstChild;
+  var text = img.nextSibling;
+  var ul = findUlChild(li);
+
+  var visible = aboveThreshold(text.nodeValue, threshold) ? 1 : 0;
+
+  var count = 0;
+  if (ul) {
+    count = setThresholdUL(ul, threshold);
+  }
+  if (count>0) {
+    img.src = 'minus.png';
+  }
+  else {
+    img.src = 'empty.png';
+  }
+  if (visible) {
+    li.style.display = 'block'
+  }
+  else {
+    li.style.display = 'none'
+  }
+  return visible;
+}
+
+function setThresholdUL(node, threshold) {
+  var lis = node.childNodes;
+  var l = lis.length;
+
+  var count = 0;
+  for ( var i = 0; i < l ; i++ ) {
+    count = count + setThresholdLI(lis[i], threshold);
+  }
+
+  var visible = (count > 0) ? 1 : 0;
+  if (visible) {
+    node.style.display = 'block';
+  }
+  else {
+    node.style.display = 'none';
+  }
+  return visible;
+}
+
+function toggleChildren(img, event) {
+  event.cancelBubble=true;
+
+  if (img.src.indexOf('empty.png') > -1)
+    return;
+
+  var minus = (img.src.indexOf('minus.png') > -1);
+
+  if (minus) {
+    img.src = 'plus.png';
+  }
+  else
+    img.src = 'minus.png';
+
+  var li = img.parentNode;
+  var ul = findUlChild(li);
+  if (ul) {
+    if (minus)
+      ul.style.display = 'none';
+    else
+      ul.style.display = 'block';
+  }
+  if (minus)
+    moveSelectionIfNecessary(li);
+}
+
+function showChildren(li) {
+  var img = li.firstChild;
+  if (img.src.indexOf('empty.png') > -1)
+    return;
+  img.src = 'minus.png';
+
+  var ul = findUlChild(li);
+  if (ul) {
+    ul.style.display = 'block';
+  }
+}
+
+function setThreshold() {
+ var tv = document.getElementById("threshold").value;
+ if (tv.match(/[0-9]+([.,][0-9]+)?/)) {
+   var f = parseFloat(tv.replace(/,/, '.'));
+   var threads = document.getElementsByName("thread");
+   var l = threads.length;
+   for ( var i = 0; i < l ; i++ ) {
+     setThresholdUL(threads[i], f);
+   }
+   var p = selectedNode;
+   while (p && p.style.display=='none')
+     p=p.parentNode.parentNode;
+   if (p && p.nodeName=="LI")
+    selectNode(p);
+ }
+ else {
+   alert("Please specify a decimal number as threshold value!");
+ }
+}
+
+function collapseAll(event) {
+  event.cancelBubble=true;
+  var threads = document.getElementsByName("thread");
+  var l = threads.length;
+  for ( var i = 0; i < l ; i++ ) {
+    hideUL(threads[i]);
+  }
+  selectNode(rootNode(), null);
+}
+
+function expandAll(event) {
+  event.cancelBubble=true;
+  var threads = document.getElementsByName("thread");
+  var l = threads.length;
+  for ( var i = 0; i < l ; i++ ) {
+    showUL(threads[i]);
+  }
+}
+
+function toggleHelp(node) {
+  var help = document.getElementById("help");
+  if (node.value == "Show Help") {
+    node.value = "Hide Help";
+    help.style.display = 'block';
+  }
+  else {
+    node.value = "Show Help";
+    help.style.display = 'none';
+  }
+}
+
+var selectedNode = null;
+var selectedColor = null;
+var selectedThread = null;
+
+function descendentOf(a,b){
+  while (a!=b && b!=null)
+    b=b.parentNode;
+  return (a==b);
+}
+
+function moveSelectionIfNecessary(node){
+  if (descendentOf(node, selectedNode))
+    selectNode(node, null);
+}
+
+function selectNode(node, event) {
+  if (event) {
+    event.cancelBubble = true;
+    thread = findThread(node);
+    selectThread(thread);
+  }
+  if (selectedNode) {
+    selectedNode.style.background = selectedColor;
+  }
+  selectedNode = node;
+  selectedColor = node.style.background;
+  selectedNode.style.background = "red";
+  selectedNode.scrollIntoView();
+  window.scrollBy(0,-400);
+}
+
+function moveUp(){
+  var p = selectedNode.previousSibling;
+  while (p && p.style.display == 'none')
+    p = p.previousSibling;
+  if (p && p.nodeName == "LI") {
+    selectNode(p, null);
+  }
+}
+
+function moveDown(){
+  var p = selectedNode.nextSibling;
+  while (p && p.style.display == 'none')
+    p = p.nextSibling;
+  if (p && p.nodeName == "LI") {
+    selectNode(p, null);
+  }
+}
+
+function moveLeft(){
+  var p = selectedNode.parentNode.parentNode;
+  if (p && p.nodeName=="LI") {
+    selectNode(p, null);
+  }
+}
+
+function moveRight(){
+  if (!isLeafNode(selectedNode)) {
+    showChildren(selectedNode);
+    var ul = findUlChild(selectedNode);
+    if (ul) {
+      selectNode(ul.firstChild, null);
+    }
+  }
+}
+
+function moveForward(){
+  if (isLeafNode(selectedNode)) {
+    var p = selectedNode;
+    while ((p.nextSibling == null || p.nextSibling.style.display=='none') && p.nodeName=="LI") {
+      p = p.parentNode.parentNode;
+    }
+    if (p.nodeName=="LI")
+      selectNode(p.nextSibling, null);
+  }
+  else {
+    moveRight();
+  }
+}
+
+function isExpandedNode(li){
+  var img = li.firstChild;
+  return(img.src.indexOf('minus.png')>-1);
+}
+
+function moveBackward(){
+  var p = selectedNode;
+  var q = p.previousSibling;
+  while (q != null && q.style.display=='none')
+    q = q.previousSibling;
+  if (q == null) {
+    p = p.parentNode.parentNode;
+  } else {
+    while (!isLeafNode(q) && isExpandedNode(q)) {
+      q = findUlChild(q).lastChild;
+      while (q.style.display=='none')
+        q = q.previousSibling;
+    }
+    p = q;
+  }
+  if (p.nodeName=="LI")
+    selectNode(p, null);
+}
+
+function moveHome() {
+  selectNode(currentThread);
+}
+
+var currentThreadIndex = null;
+
+function findThread(node){
+  while (node && node.parentNode.nodeName!="BODY") {
+    node = node.parentNode;
+  }
+  return node.firstChild;
+}
+
+function selectThread(node){
+  var threads = document.getElementsByName("thread");
+  currentThread = node;
+  for (var i=0; i<threads.length; i++) {
+    if (threads[i]==currentThread.parentNode)
+      currentThreadIndex = i;
+  }
+}
+
+function nextThread(){
+  var threads = document.getElementsByName("thread");
+  if (currentThreadIndex==threads.length-1)
+    currentThreadIndex = 0;
+  else
+    currentThreadIndex += 1
+  currentThread = threads[currentThreadIndex].firstChild;
+  selectNode(currentThread, null);
+}
+
+function previousThread(){
+  var threads = document.getElementsByName("thread");
+  if (currentThreadIndex==0)
+    currentThreadIndex = threads.length-1;
+  else
+    currentThreadIndex -= 1
+  currentThread = threads[currentThreadIndex].firstChild;
+  selectNode(currentThread, null);
+}
+
+function switchThread(node, event){
+  event.cancelBubble = true;
+  selectThread(node.nextSibling.firstChild);
+  selectNode(currentThread, null);
+}
+
+function handleKeyEvent(event){
+  var code = event.charCode ? event.charCode : event.keyCode;
+  var str = String.fromCharCode(code);
+  switch (str) {
+    case "a": moveLeft();  break;
+    case "s": moveDown();  break;
+    case "d": moveRight(); break;
+    case "w": moveUp();    break;
+    case "f": moveForward(); break;
+    case "b": moveBackward(); break;
+    case "x": toggleChildren(selectedNode.firstChild, event); break;
+    case "*": toggleLI(selectedNode); break;
+    case "n": nextThread(); break;
+    case "h": moveHome(); break;
+    case "p": previousThread(); break;
+  }
+}
+document.onkeypress=function(event){ handleKeyEvent(event) };
+
+window.onload=function(){
+  var images = document.getElementsByTagName("img");
+  for (var i=0; i<images.length; i++) {
+    var img = images[i];
+    if (img.className == "toggle") {
+      img.onclick = function(event){ toggleChildren(this, event); };
+    }
+  }
+  var divs = document.getElementsByTagName("div");
+  for (i=0; i<divs.length; i++) {
+    var div = divs[i];
+    if (div.className == "thread")
+      div.onclick = function(event){ switchThread(this, event) };
+  }
+  var lis = document.getElementsByTagName("li");
+  for (var i=0; i<lis.length; i++) {
+    lis[i].onclick = function(event){ selectNode(this, event); };
+  }
+  var threads = document.getElementsByName("thread");
+  currentThreadIndex = 0;
+  currentThread = threads[0].firstChild;
+  selectNode(currentThread, null);
+}
+</script>
+</head><body>
+<div id="titlebar">
+Call tree for application <b>/home/golly/.rvm/gems/ruby-1.9.3-p125/bin/rackup </b><br/>
+Generated on 2012-03-27 18:06:36 +1100 with options {}<br/>
+</div>
+<div id="commands">
+<span style="font-size: 11pt; font-weight: bold;">Threshold:</span>
+<input value="1.0" size="3" id="threshold" type="text">
+<input value="Apply" onclick="setThreshold();" type="submit">
+<input value="Expand All" onclick="expandAll(event);" type="submit">
+<input value="Collapse All" onclick="collapseAll(event);" type="submit">
+<input value="Show Help" onclick="toggleHelp(this);" type="submit">
+</div>
+<div style="display: none;" id="help">
+<img src="empty.png"> Enter a decimal value <i>d</i> into the threshold field and click "Apply"
+to hide all nodes marked with time values lower than <i>d</i>.<br>
+<img src="empty.png"> Click on "Expand All" for full tree expansion.<br>
+<img src="empty.png"> Click on "Collapse All" to show only top level nodes.<br>
+<img src="empty.png"> Use a, s, d, w as in Quake or Urban Terror to navigate the tree.<br>
+<img src="empty.png"> Use f and b to navigate the tree in preorder forward and backwards.<br>
+<img src="empty.png"> Use x to toggle visibility of a subtree.<br>
+<img src="empty.png"> Use * to expand/collapse a whole subtree.<br>
+<img src="empty.png"> Use h to navigate to thread root.<br>
+<img src="empty.png"> Use n and p to navigate between threads.<br>
+<img src="empty.png"> Click on background to move focus to a subtree.<br>
+</div>
+<div class="thread">Thread: 5693420 (100.00% ~ 0.10356665800000331)</div><ul name="thread"><li class="color2737" style="display:block"><img class="toggle" src="minus.png"> 27376.83% (27376.83%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/profile.rb#65">MultiProfiler#call</a> [1 calls, <a href='process-multi.graph.html#MultiProfiler_call_5693420'>1</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.82% (99.63%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/showexceptions.rb#20">Sinatra::ShowExceptions#call</a> [2 calls, <a href='process-multi.graph.html#Sinatra__ShowExceptions_call_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.81% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/head.rb#8">Rack::Head#call</a> [2 calls, <a href='process-multi.graph.html#Rack__Head_call_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.79% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/nulllogger.rb#7">Rack::NullLogger#call</a> [2 calls, <a href='process-multi.graph.html#Rack__NullLogger_call_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.77% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb#21">Rack::Protection::XSSHeader#call</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__XSSHeader_call_5693420'>4</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.71% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/base.rb#42">Rack::Protection::Base#call</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__Base_call_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.68% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/json_csrf.rb#16">Rack::Protection::JsonCsrf#call</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__JsonCsrf_call_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.63% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/path_traversal.rb#13">Rack::Protection::PathTraversal#call</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__PathTraversal_call_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.46% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb#21">Rack::Protection::XSSHeader#call</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__XSSHeader_call_5693420'>4</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.39% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#704">Sinatra::Base#call</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_call_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27276.35% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#710">Sinatra::Base#call!</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_call!_5693420'>4</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27272.50% (99.99%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#870">Sinatra::Base#invoke</a> [4 calls, <a href='process-multi.graph.html#Sinatra__Base_invoke_5693420'>4</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27272.32% (100.00%) Kernel#catch [4 calls, <a href='process-multi.graph.html#Kernel_catch_5693420'>6</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27272.19% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#883">Sinatra::Base#dispatch!</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_dispatch!_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.74% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#781">Sinatra::Base#route!</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_route!_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.71% (100.00%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.70% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#809">Sinatra::Base#process_route</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_process_route_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.61% (100.00%) Kernel#catch [2 calls, <a href='process-multi.graph.html#Kernel_catch_5693420'>6</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.59% (100.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#800">Sinatra::Base#route_eval</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_route_eval_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.55% (100.00%) Proc#[] [2 calls, <a href='process-multi.graph.html#Proc_[]_5693420'>2</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.53% (100.00%) Method#call [2 calls, <a href='process-multi.graph.html#Method_call_5693420'>4</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.52% (100.00%) Method#call [2 calls, <a href='process-multi.graph.html#Method_call_5693420'>4</a> total]
+<ul><li class="color2727" style="display:block"><img class="toggle" src="minus.png"> 27271.50% (100.00%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru#14">MyApp#target_code</a> [2 calls, <a href='process-multi.graph.html#MyApp_target_code_5693420'>2</a> total]
+<ul><li class="color2159" style="display:block"><img class="toggle" src="minus.png"> 21593.82% (79.18%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru#15">MyApp#asd</a> [2061802 calls, <a href='process-multi.graph.html#MyApp_asd_5693420'>2061802</a> total]
+<ul><li class="color1057" style="display:block"><img class="toggle" src="minus.png"> 10578.89% (48.99%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru#16">MyApp#omg</a> [2061802 calls, <a href='process-multi.graph.html#MyApp_omg_5693420'>2061804</a> total]
+<ul><li class="color541" style="display:block"><img src="empty.png"> 5411.98% (51.16%) Float#to_s [2061800 calls, <a href='process-multi.graph.html#Float_to_s_5693420'>2061802</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) Fixnum#to_s [2 calls, <a href='process-multi.graph.html#Fixnum_to_s_5693420'>4</a> total]
+</li></ul></li><li class="color243" style="display:block"><img src="empty.png"> 2438.58% (11.29%) Float#to_f [2061800 calls, <a href='process-multi.graph.html#Float_to_f_5693420'>2061800</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) Fixnum#to_f [2 calls, <a href='process-multi.graph.html#Fixnum_to_f_5693420'>2</a> total]
+</li></ul></li><li class="color240" style="display:block"><img src="empty.png"> 2403.08% (8.81%) Float#&lt; [2061802 calls, <a href='process-multi.graph.html#Float___5693420'>2061802</a> total]
+</li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (0.00%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/config.ru#16">MyApp#omg</a> [2 calls, <a href='process-multi.graph.html#MyApp_omg_5693420'>2061804</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (49.96%) Float#to_s [2 calls, <a href='process-multi.graph.html#Float_to_s_5693420'>2061802</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) String#to_s [2 calls, <a href='process-multi.graph.html#String_to_s_5693420'>14</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) UnboundMethod#bind [2 calls, <a href='process-multi.graph.html#UnboundMethod_bind_5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.02% (0.00%) Kernel#throw [2 calls, <a href='process-multi.graph.html#Kernel_throw_5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#26">Rack::Request#path_info</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_path_info_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (26.88%) String#to_s [2 calls, <a href='process-multi.graph.html#String_to_s_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) Regexp#match [2 calls, <a href='process-multi.graph.html#Regexp_match_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (0.00%) Enumerable#any? [2 calls, <a href='process-multi.graph.html#Enumerable_any__5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (37.29%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) MatchData#captures [2 calls, <a href='process-multi.graph.html#MatchData_captures_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) Array#map [2 calls, <a href='process-multi.graph.html#Array_map_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) Array#to_a [2 calls, <a href='process-multi.graph.html#Array_to_a_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) String#empty? [2 calls, <a href='process-multi.graph.html#String_empty__5693420'>6</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#27">Rack::Request#request_method</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_request_method_5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.22% (0.00%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)#1">&lt;Class::Sinatra::Base&gt;#static?</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__static__5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.21% (96.34%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)#1">&lt;Class::Sinatra::Base&gt;#static?</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__static__5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.17% (83.11%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#1530">&lt;Class::Sinatra::Base&gt;#static</a> [4 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__static_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.12% (71.22%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#1529">&lt;Class::Sinatra::Base&gt;#public_folder</a> [8 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__public_folder_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.03% (25.27%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#1523">&lt;Class::Sinatra::Base&gt;#root</a> [16 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__root_5693420'>16</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.02% (18.29%) &lt;Class::File&gt;#expand_path [8 calls, <a href='process-multi.graph.html#_Class__File__expand_path_5693420'>8</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.02% (16.64%) &lt;Class::File&gt;#dirname [8 calls, <a href='process-multi.graph.html#_Class__File__dirname_5693420'>8</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (6.75%) &lt;Class::File&gt;#join [4 calls, <a href='process-multi.graph.html#_Class__File__join_5693420'>4</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.02% (9.91%) &lt;Class::File&gt;#exist? [2 calls, <a href='process-multi.graph.html#_Class__File__exist__5693420'>2</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.13% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#775">Sinatra::Base#filter!</a> [4 calls, <a href='process-multi.graph.html#Sinatra__Base_filter!_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.06% (48.85%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#775">Sinatra::Base#filter!</a> [4 calls, <a href='process-multi.graph.html#Sinatra__Base_filter!_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (33.52%) Kernel#respond_to? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to__5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (33.08%) Kernel#respond_to_missing? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (12.20%) Array#each [4 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (10.07%) Class#superclass [4 calls, <a href='process-multi.graph.html#Class_superclass_5693420'>16</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (9.24%) Class#superclass [8 calls, <a href='process-multi.graph.html#Class_superclass_5693420'>16</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (8.61%) Kernel#respond_to? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to__5693420'>30</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (4.27%) Array#each [4 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.06% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#739">Sinatra::Base#settings</a> [8 calls, <a href='process-multi.graph.html#Sinatra__Base_settings_5693420'>18</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.02% (26.40%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#734">&lt;Class::Sinatra::Base&gt;#settings</a> [8 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__settings_5693420'>20</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (19.41%) Kernel#class [8 calls, <a href='process-multi.graph.html#Kernel_class_5693420'>18</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.10% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#915">Sinatra::Base#error_block!</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_error_block!_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (32.38%) Kernel#respond_to? [8 calls, <a href='process-multi.graph.html#Kernel_respond_to__5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (20.95%) Kernel#respond_to_missing? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (21.33%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#739">Sinatra::Base#settings</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_settings_5693420'>18</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (27.97%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#734">&lt;Class::Sinatra::Base&gt;#settings</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__settings_5693420'>20</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (18.89%) Kernel#class [2 calls, <a href='process-multi.graph.html#Kernel_class_5693420'>18</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (6.43%) Class#superclass [4 calls, <a href='process-multi.graph.html#Class_superclass_5693420'>16</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.06% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#104">Sinatra::Helpers#body</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Helpers_body_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (49.86%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#66">Sinatra::Response#body=</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Response_body__5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (26.10%) Module#=== [4 calls, <a href='process-multi.graph.html#Module_____5693420'>24</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (10.57%) Kernel#block_given? [2 calls, <a href='process-multi.graph.html#Kernel_block_given__5693420'>8</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (0.00%) Kernel#respond_to? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to__5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (23.98%) Kernel#respond_to_missing? [2 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.02% (0.00%) Module#=== [14 calls, <a href='process-multi.graph.html#Module_____5693420'>24</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) Array#first [2 calls, <a href='process-multi.graph.html#Array_first_5693420'>4</a> total]
+</li></ul></li><li class="color01" style="display:block"><img class="toggle" src="plus.png"> 2.47% (0.01%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#185">Sinatra::Helpers#content_type</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Helpers_content_type_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:block"><img class="toggle" src="plus.png"> 2.09% (84.64%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#179">Sinatra::Helpers#mime_type</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Helpers_mime_type_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:block"><img class="toggle" src="empty.png"> 2.08% (99.32%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#1083">&lt;Class::Sinatra::Base&gt;#mime_type</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__mime_type_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (1.46%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/mime.rb#16">Rack::Mime#mime_type</a> [2 calls, <a href='process-multi.graph.html#Rack__Mime_mime_type_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (23.50%) Hash#fetch [2 calls, <a href='process-multi.graph.html#Hash_fetch_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (15.78%) String#downcase [2 calls, <a href='process-multi.graph.html#String_downcase_5693420'>14</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (12.49%) String#to_s [2 calls, <a href='process-multi.graph.html#String_to_s_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.60%) Symbol#to_s [6 calls, <a href='process-multi.graph.html#Symbol_to_s_5693420'>12</a> total]
+</li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (0.60%) Module#module_function [1 calls, <a href='process-multi.graph.html#Module_module_function_5693420'>1</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (28.87%) BasicObject#singleton_method_added [1 calls, <a href='process-multi.graph.html#BasicObject_singleton_method_added_5693420'>1</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.49%) IO#set_encoding [2 calls, <a href='process-multi.graph.html#IO_set_encoding_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.39%) String#include? [2 calls, <a href='process-multi.graph.html#String_include__5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.33%) String#[] [2 calls, <a href='process-multi.graph.html#String_[]_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.21%) Kernel#nil? [2 calls, <a href='process-multi.graph.html#Kernel_nil__5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.17%) Module#method_added [1 calls, <a href='process-multi.graph.html#Module_method_added_5693420'>1</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.07% (2.79%) Enumerable#all? [2 calls, <a href='process-multi.graph.html#Enumerable_all__5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.06% (85.66%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.02% (33.66%) Regexp#=== [2 calls, <a href='process-multi.graph.html#Regexp_____5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (18.90%) String#=== [8 calls, <a href='process-multi.graph.html#String_____5693420'>8</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.04% (1.79%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb#54">Rack::Response#[]=</a> [2 calls, <a href='process-multi.graph.html#Rack__Response_[]__5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (77.06%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#394">Rack::Utils::HeaderHash#[]=</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_[]__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (26.54%) Hash#[]= [6 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (10.49%) String#downcase [2 calls, <a href='process-multi.graph.html#String_downcase_5693420'>14</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.04% (1.75%) Enumerable#map [2 calls, <a href='process-multi.graph.html#Enumerable_map_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.04% (80.79%) Hash#each [2 calls, <a href='process-multi.graph.html#Hash_each_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (61.94%) Array#join [2 calls, <a href='process-multi.graph.html#Array_join_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (20.21%) Symbol#to_s [2 calls, <a href='process-multi.graph.html#Symbol_to_s_5693420'>12</a> total]
+</li></ul></li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (1.38%) Kernel#dup [2 calls, <a href='process-multi.graph.html#Kernel_dup_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (43.29%) Kernel#initialize_dup [2 calls, <a href='process-multi.graph.html#Kernel_initialize_dup_5693420'>14</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (34.59%) String#initialize_copy [2 calls, <a href='process-multi.graph.html#String_initialize_copy_5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (14.14%) &lt;Class::String&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__String__allocate_5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (1.33%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#739">Sinatra::Base#settings</a> [4 calls, <a href='process-multi.graph.html#Sinatra__Base_settings_5693420'>18</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (24.11%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#734">&lt;Class::Sinatra::Base&gt;#settings</a> [4 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__settings_5693420'>20</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (18.36%) Kernel#class [4 calls, <a href='process-multi.graph.html#Kernel_class_5693420'>18</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.02% (0.66%) Array#join [2 calls, <a href='process-multi.graph.html#Array_join_5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.53%) Hash#delete [4 calls, <a href='process-multi.graph.html#Hash_delete_5693420'>4</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.45%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#185">Sinatra::Helpers#content_type</a> [4 calls, <a href='process-multi.graph.html#Sinatra__Helpers_content_type_5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.27%) String#include? [4 calls, <a href='process-multi.graph.html#String_include__5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.21%) Hash#[]= [2 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.20%) Hash#include? [2 calls, <a href='process-multi.graph.html#Hash_include__5693420'>4</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.20%) Hash#empty? [2 calls, <a href='process-multi.graph.html#Hash_empty__5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.15%) Kernel#nil? [2 calls, <a href='process-multi.graph.html#Kernel_nil__5693420'>6</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.36% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#220">Rack::Request#params</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_params_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.16% (45.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#181">Rack::Request#GET</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_GET_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.10% (59.38%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#333">Rack::Request#parse_query</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_parse_query_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.08% (88.74%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#84">Rack::Utils#parse_nested_query</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils_parse_nested_query_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (30.52%) Class#new [2 calls, <a href='process-multi.graph.html#Class_new_5693420'>10</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (34.21%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#434">Rack::Utils::KeySpaceConstrainedParams#initialize</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__KeySpaceConstrainedParams_initialize_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (14.01%) &lt;Class::BasicObject&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__BasicObject__allocate_5693420'>8</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (23.96%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#454">Rack::Utils::KeySpaceConstrainedParams#to_params_hash</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__KeySpaceConstrainedParams_to_params_hash_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (19.96%) Hash#keys [2 calls, <a href='process-multi.graph.html#Hash_keys_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (17.57%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (13.22%) String#split [2 calls, <a href='process-multi.graph.html#String_split_5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (4.42%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (18.30%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#28">Rack::Request#query_string</a> [6 calls, <a href='process-multi.graph.html#Rack__Request_query_string_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (30.76%) String#to_s [6 calls, <a href='process-multi.graph.html#String_to_s_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (4.63%) Hash#[]= [4 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.16% (43.87%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#194">Rack::Request#POST</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_POST_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.07% (43.74%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#168">Rack::Request#form_data?</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_form_data__5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (35.17%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#46">Rack::Request#media_type</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_media_type_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (59.94%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#31">Rack::Request#content_type</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_content_type_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (25.65%) NilClass#nil? [2 calls, <a href='process-multi.graph.html#NilClass_nil__5693420'>4</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (34.14%) Array#include? [2 calls, <a href='process-multi.graph.html#Array_include__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (64.93%) String#== [4 calls, <a href='process-multi.graph.html#String____5693420'>10</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (37.21%) Kernel#respond_to_missing? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.05% (30.98%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#176">Rack::Request#parseable_data?</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_parseable_data__5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (43.41%) Array#include? [2 calls, <a href='process-multi.graph.html#Array_include__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (68.27%) String#== [4 calls, <a href='process-multi.graph.html#String____5693420'>10</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (37.35%) Kernel#respond_to_missing? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (36.24%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#46">Rack::Request#media_type</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_media_type_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (62.46%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#31">Rack::Request#content_type</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_content_type_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (26.65%) NilClass#nil? [2 calls, <a href='process-multi.graph.html#NilClass_nil__5693420'>4</a> total]
+</li></ul></li></ul></li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (2.63%) Kernel#nil? [2 calls, <a href='process-multi.graph.html#Kernel_nil__5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (2.48%) Kernel#eql? [2 calls, <a href='process-multi.graph.html#Kernel_eql__5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (6.07%) Hash#merge [2 calls, <a href='process-multi.graph.html#Hash_merge_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (41.18%) Kernel#initialize_dup [2 calls, <a href='process-multi.graph.html#Kernel_initialize_dup_5693420'>14</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (37.98%) Hash#initialize_copy [2 calls, <a href='process-multi.graph.html#Hash_initialize_copy_5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (15.30%) &lt;Class::Hash&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__Hash__allocate_5693420'>14</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.32% (0.00%) Class#new [4 calls, <a href='process-multi.graph.html#Class_new_5693420'>10</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.29% (89.46%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb#22">Rack::Response#initialize</a> [2 calls, <a href='process-multi.graph.html#Rack__Response_initialize_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.10% (34.62%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#368">&lt;Class::Rack::Utils::HeaderHash&gt;#new</a> [2 calls, <a href='process-multi.graph.html#_Class__Rack__Utils__HeaderHash__new_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.08% (82.27%) Class#new [2 calls, <a href='process-multi.graph.html#Class_new_5693420'>10</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.07% (82.29%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#372">Rack::Utils::HeaderHash#initialize</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_initialize_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.05% (69.26%) Hash#each [2 calls, <a href='process-multi.graph.html#Hash_each_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (73.97%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#394">Rack::Utils::HeaderHash#[]=</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_[]__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (30.47%) Hash#[]= [6 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (13.81%) String#downcase [2 calls, <a href='process-multi.graph.html#String_downcase_5693420'>14</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (8.59%) Hash#initialize [2 calls, <a href='process-multi.graph.html#Hash_initialize_5693420'>4</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (4.88%) &lt;Class::Hash&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__Hash__allocate_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (4.49%) Module#=== [2 calls, <a href='process-multi.graph.html#Module_____5693420'>24</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.05% (18.43%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#421">Rack::Utils::HeaderHash#merge</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_merge_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (49.52%) Kernel#dup [2 calls, <a href='process-multi.graph.html#Kernel_dup_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (48.90%) Kernel#initialize_dup [2 calls, <a href='process-multi.graph.html#Kernel_initialize_dup_5693420'>14</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (47.58%) Hash#initialize_copy [2 calls, <a href='process-multi.graph.html#Hash_initialize_copy_5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (11.63%) &lt;Class::Hash&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__Hash__allocate_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (23.13%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#416">Rack::Utils::HeaderHash#merge!</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_merge!_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (25.90%) Hash#each [2 calls, <a href='process-multi.graph.html#Hash_each_5693420'>8</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (8.45%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#390">Rack::Utils::HeaderHash#[]</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_[]_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (29.69%) Hash#[] [4 calls, <a href='process-multi.graph.html#Hash_[]_5693420'>8</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (14.67%) String#downcase [2 calls, <a href='process-multi.graph.html#String_downcase_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (4.96%) Kernel#respond_to? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to__5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (22.01%) Kernel#respond_to_missing? [2 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (4.84%) String#== [2 calls, <a href='process-multi.graph.html#String____5693420'>10</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (30.08%) Kernel#respond_to_missing? [2 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (1.91%) Kernel#lambda [2 calls, <a href='process-multi.graph.html#Kernel_lambda_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (1.60%) Kernel#block_given? [2 calls, <a href='process-multi.graph.html#Kernel_block_given__5693420'>8</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (1.44%) Integer#to_i [2 calls, <a href='process-multi.graph.html#Integer_to_i_5693420'>10</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (1.22%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (1.83%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/request.rb#20">Rack::Request#initialize</a> [2 calls, <a href='process-multi.graph.html#Rack__Request_initialize_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (1.73%) &lt;Class::BasicObject&gt;#allocate [4 calls, <a href='process-multi.graph.html#_Class__BasicObject__allocate_5693420'>8</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.18% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#75">Sinatra::Response#finish</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Response_finish_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.04% (21.23%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb#71">Rack::Response#finish</a> [2 calls, <a href='process-multi.graph.html#Rack__Response_finish_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (43.42%) Array#include? [2 calls, <a href='process-multi.graph.html#Array_include__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (48.01%) Fixnum#== [6 calls, <a href='process-multi.graph.html#Fixnum____5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (15.27%) Integer#to_i [4 calls, <a href='process-multi.graph.html#Integer_to_i_5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (18.05%) Enumerable#inject [2 calls, <a href='process-multi.graph.html#Enumerable_inject_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (76.59%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (51.35%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#280">Rack::Utils#bytesize</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils_bytesize_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (30.39%) String#bytesize [2 calls, <a href='process-multi.graph.html#String_bytesize_5693420'>2</a> total]
+</li></ul></li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (16.63%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#394">Rack::Utils::HeaderHash#[]=</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_[]__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (31.41%) Hash#[]= [6 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (11.79%) String#downcase [2 calls, <a href='process-multi.graph.html#String_downcase_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (8.95%) Array#include? [2 calls, <a href='process-multi.graph.html#Array_include__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (42.57%) Fixnum#== [4 calls, <a href='process-multi.graph.html#Fixnum____5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (4.07%) Integer#to_i [4 calls, <a href='process-multi.graph.html#Integer_to_i_5693420'>10</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (2.71%) Fixnum#to_s [2 calls, <a href='process-multi.graph.html#Fixnum_to_s_5693420'>4</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (2.26%) Module#=== [2 calls, <a href='process-multi.graph.html#Module_____5693420'>24</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.10% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#1467">Sinatra::Base#force_encoding</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_force_encoding_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.07% (70.92%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#1469">&lt;Class::Sinatra::Base&gt;#force_encoding</a> [4 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__force_encoding_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (21.61%) Hash#== [2 calls, <a href='process-multi.graph.html#Hash____5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (24.37%) Kernel#respond_to_missing? [2 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (17.84%) Kernel#respond_to? [4 calls, <a href='process-multi.graph.html#Kernel_respond_to__5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (23.85%) Kernel#respond_to_missing? [2 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (6.10%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#734">&lt;Class::Sinatra::Base&gt;#settings</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__settings_5693420'>20</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (5.68%) Hash#each_value [2 calls, <a href='process-multi.graph.html#Hash_each_value_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (5.52%) Kernel#is_a? [2 calls, <a href='process-multi.graph.html#Kernel_is_a__5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (14.94%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#739">Sinatra::Base#settings</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_settings_5693420'>18</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (27.27%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#734">&lt;Class::Sinatra::Base&gt;#settings</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__settings_5693420'>20</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (19.48%) Kernel#class [2 calls, <a href='process-multi.graph.html#Kernel_class_5693420'>18</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.08% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#104">Sinatra::Helpers#body</a> [4 calls, <a href='process-multi.graph.html#Sinatra__Helpers_body_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (9.34%) Kernel#block_given? [4 calls, <a href='process-multi.graph.html#Kernel_block_given__5693420'>8</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.06% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#856">Sinatra::Base#indifferent_params</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_indifferent_params_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (39.35%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#865">Sinatra::Base#indifferent_hash</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_indifferent_hash_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (62.74%) Class#new [2 calls, <a href='process-multi.graph.html#Class_new_5693420'>10</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (34.17%) Hash#initialize [2 calls, <a href='process-multi.graph.html#Hash_initialize_5693420'>4</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (20.15%) &lt;Class::Hash&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__Hash__allocate_5693420'>14</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (31.19%) Hash#merge [2 calls, <a href='process-multi.graph.html#Hash_merge_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (46.61%) Kernel#initialize_dup [2 calls, <a href='process-multi.graph.html#Kernel_initialize_dup_5693420'>14</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (46.16%) Hash#initialize_copy [2 calls, <a href='process-multi.graph.html#Hash_initialize_copy_5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (16.75%) &lt;Class::Hash&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__Hash__allocate_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (5.46%) Hash#each [2 calls, <a href='process-multi.graph.html#Hash_each_5693420'>8</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.05% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb#50">Rack::Response#[]</a> [2 calls, <a href='process-multi.graph.html#Rack__Response_[]_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.04% (78.14%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#390">Rack::Utils::HeaderHash#[]</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_[]_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (33.44%) String#downcase [2 calls, <a href='process-multi.graph.html#String_downcase_5693420'>14</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (25.06%) Hash#[] [4 calls, <a href='process-multi.graph.html#Hash_[]_5693420'>8</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.04% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/response.rb#54">Rack::Response#[]=</a> [2 calls, <a href='process-multi.graph.html#Rack__Response_[]__5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (78.61%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-1.4.1/lib/rack/utils.rb#394">Rack::Utils::HeaderHash#[]=</a> [2 calls, <a href='process-multi.graph.html#Rack__Utils__HeaderHash_[]__5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (28.77%) Hash#[]= [6 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (12.31%) String#downcase [2 calls, <a href='process-multi.graph.html#String_downcase_5693420'>14</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#710">Sinatra::Base#call!</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_call!_5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (68.75%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#1266">&lt;Class::Sinatra::Base&gt;#development?</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__development__5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (23.07%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/(eval)#1">&lt;Class::Sinatra::Base&gt;#environment</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__environment_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (16.87%) Symbol#== [2 calls, <a href='process-multi.graph.html#Symbol____5693420'>2</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#739">Sinatra::Base#settings</a> [2 calls, <a href='process-multi.graph.html#Sinatra__Base_settings_5693420'>18</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (23.20%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/sinatra-1.3.2/lib/sinatra/base.rb#734">&lt;Class::Sinatra::Base&gt;#settings</a> [2 calls, <a href='process-multi.graph.html#_Class__Sinatra__Base__settings_5693420'>20</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (18.69%) Kernel#class [2 calls, <a href='process-multi.graph.html#Kernel_class_5693420'>18</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (0.00%) Kernel#respond_to? [2 calls, <a href='process-multi.graph.html#Kernel_respond_to__5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (30.81%) Kernel#respond_to_missing? [2 calls, <a href='process-multi.graph.html#Kernel_respond_to_missing__5693420'>28</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/tilt-1.3.3/lib/tilt.rb#130">Tilt::Cache#clear</a> [2 calls, <a href='process-multi.graph.html#Tilt__Cache_clear_5693420'>2</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) Module#=== [2 calls, <a href='process-multi.graph.html#Module_____5693420'>24</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (0.00%) Kernel#dup [2 calls, <a href='process-multi.graph.html#Kernel_dup_5693420'>6</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (41.44%) Kernel#initialize_dup [2 calls, <a href='process-multi.graph.html#Kernel_initialize_dup_5693420'>14</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (30.37%) Kernel#initialize_copy [2 calls, <a href='process-multi.graph.html#Kernel_initialize_copy_5693420'>2</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (13.28%) &lt;Class::BasicObject&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__BasicObject__allocate_5693420'>8</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.03% (0.00%) Hash#merge [2 calls, <a href='process-multi.graph.html#Hash_merge_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (44.93%) Kernel#initialize_dup [2 calls, <a href='process-multi.graph.html#Kernel_initialize_dup_5693420'>14</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (51.45%) Hash#initialize_copy [2 calls, <a href='process-multi.graph.html#Hash_initialize_copy_5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (12.37%) &lt;Class::Hash&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__Hash__allocate_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/xss_header.rb#17">Rack::Protection::XSSHeader#header</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__XSSHeader_header_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (24.73%) Symbol#to_s [2 calls, <a href='process-multi.graph.html#Symbol_to_s_5693420'>12</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.14% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/path_traversal.rb#21">Rack::Protection::PathTraversal#cleanup</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__PathTraversal_cleanup_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.04% (29.31%) String#gsub [4 calls, <a href='process-multi.graph.html#String_gsub_5693420'>4</a> total]
+</li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (15.41%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (28.26%) String#empty? [4 calls, <a href='process-multi.graph.html#String_empty__5693420'>6</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (9.33%) String#split [2 calls, <a href='process-multi.graph.html#String_split_5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (8.56%) Enumerable#any? [2 calls, <a href='process-multi.graph.html#Enumerable_any__5693420'>4</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (40.06%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (4.69%) Array#join [2 calls, <a href='process-multi.graph.html#Array_join_5693420'>6</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) Hash#[]= [4 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) String#split [2 calls, <a href='process-multi.graph.html#String_split_5693420'>6</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) String#to_s [2 calls, <a href='process-multi.graph.html#String_to_s_5693420'>14</a> total]
+</li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (0.00%) Array#first [2 calls, <a href='process-multi.graph.html#Array_first_5693420'>4</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/ip_spoofing.rb#14">Rack::Protection::IPSpoofing#accepts?</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__IPSpoofing_accepts__5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (35.04%) Hash#include? [2 calls, <a href='process-multi.graph.html#Hash_include__5693420'>4</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (0.00%) Hash#merge [2 calls, <a href='process-multi.graph.html#Hash_merge_5693420'>8</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.01% (46.48%) Kernel#initialize_dup [2 calls, <a href='process-multi.graph.html#Kernel_initialize_dup_5693420'>14</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.01% (50.46%) Hash#initialize_copy [2 calls, <a href='process-multi.graph.html#Hash_initialize_copy_5693420'>10</a> total]
+</li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.00% (13.47%) &lt;Class::Hash&gt;#allocate [2 calls, <a href='process-multi.graph.html#_Class__Hash__allocate_5693420'>14</a> total]
+</li></ul></li><li class="color01" style="display:none"><img class="toggle" src="empty.png"> 0.02% (0.00%) <a href="file:///home/golly/.rvm/gems/ruby-1.9.3-p125/gems/rack-protection-1.2.0/lib/rack/protection/frame_options.rb#21">Rack::Protection::FrameOptions#header</a> [2 calls, <a href='process-multi.graph.html#Rack__Protection__FrameOptions_header_5693420'>2</a> total]
+<ul style="display:none"><li class="color01" style="display:none"><img src="empty.png"> 0.00% (24.79%) Symbol#to_s [2 calls, <a href='process-multi.graph.html#Symbol_to_s_5693420'>12</a> total]
+</li></ul></li></ul></li><li class="color01" style="display:none"><img src="empty.png"> 0.01% (0.00%) Hash#[]= [2 calls, <a href='process-multi.graph.html#Hash_[]__5693420'>36</a> total]
+</li></ul></li></ul></li></ul></li><li class="color9" style="display:block"><img class="toggle" src="minus.png"> 99.99% (0.37%) <a href="file:///mnt/ubuntu/home/golly/projects/rubyprof-test/profile.rb#75">MultiProfiler#prof</a> [2 calls, <a href='process-multi.graph.html#MultiProfiler_prof_5693420'>3</a> total]
+<ul><li class="color9" style="display:block"><img src="empty.png"> 99.99% (99.99%) Array#each [2 calls, <a href='process-multi.graph.html#Array_each_5693420'>30</a> total]
+</li></ul></li></ul></li></ul><div id="sentinel"></div></body></html>

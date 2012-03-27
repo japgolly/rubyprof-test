@@ -1,0 +1,12 @@
+Two types of tests here:
+
+Straight Ruby.
+1) Simply run multi_profile.rb
+2) Results appear in output-ruby/
+
+Via Sinatra/Rack.
+1) In terminal #1, run server_test.sh
+2) In terminal #2, run client.rb
+3) In terminal #1, press ctrl-c and the server will restart with different options.
+4) If the server did restart, jump back to step 2 and repeat.
+5) Results are in output-rack/
